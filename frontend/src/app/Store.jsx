@@ -6,6 +6,10 @@ import RegistrationReducer from '../features/RegistrationSlice'
 import LoginReducer  from '../features/LoginSlice';
 import UpdateReducer from '../features/UpdatedSlice'
 
+import { userApi } from './api/user-api';
+
+
+
 const Store = configureStore({
   reducer:{
     addBlog:AddBlogReducer,

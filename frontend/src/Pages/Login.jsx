@@ -1,69 +1,83 @@
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from "react-redux";
-import { setEmail,setPassword,LoginCallApi } from '../features/LoginSlice';
+import { setEmail, setPassword, LoginCallApi } from '../features/LoginSlice';
 
-  const Login = () =>  { 
-    const dispatch = useDispatch()
-		const{email,password} = useSelector(state=>state.loginUser)
-    const navi = useNavigate();		
+const Login = () => { 
+  const dispatch = useDispatch()
+  const { email, password } = useSelector(state => state.loginUser)
+  const navi = useNavigate();		
 
+  function handleSubmit() {   
+    if (!email.includes('@')) {
+      alert("Fill the user data carefully");
+      return;
+    }
 
-	 function handleSubmit(){   
-		
-		 if(!email.includes('@') ){
-			 window.alert("fill the userData carefully");
-			 return;}
-        
-			 dispatch(LoginCallApi({email,password})).then((res)=>{
-				  console.log(res.payload)
-				     if(res.payload.status == 404){
-							navi('/reg')
-							
-						 }else{					
-							navi("/home")
-							}
-						 return;
-			 })}
-
-
-	return (
-		<>
-		<div class="login-container">
-              
-                    
-              
-          <div class="login-box">
-              <div class="login-element">
-                <label htmlFor='' >login</label>
-              </div>
-               <div class="login-element">
-            	<label htmlFor=''>email: </label> 
-		<input  autoComplete='off' type="text" value={email}  onChange={(e)=>{
-			dispatch(setEmail(e.target.value))
-		}}   name="email" />
-    
-          </div>
-          
-          <div class="login-password">
-            	<label htmlFor=''>password: </label> 
-		<input  autoComplete='off' type="text" value={password} onChange={(e)=>{
-			dispatch(setPassword(e.target.value))
-		}}   name="password" />
- 
-          </div>
-
-          	<button onClick={handleSubmit}>Register</button>
-          </div>
-       
-	
-
-	
-        </div>
-	
-
-		</>
-	);
+    dispatch(LoginCallApi({ email, password })).then((res) => {
+      if (res.payload.status === 404) {
+        navi('/reg')
+      } else {					
+        navi("/home")
+      }
+    })
   }
-  
-  export default Login;
-  
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]">
+      
+      <div className="w-full max-w-md p-8 rounded-2xl 
+                      bg-white/10 backdrop-blur-xl 
+                      shadow-2xl border border-white/20">
+
+        <h2 className="text-center text-3xl font-semibold text-[#f5c16c] mb-8">
+          Welcome Back
+        </h2>
+
+        {/* Email */}
+        <div className="mb-5">
+          <label className="block text-sm text-gray-300 mb-2">
+            Email
+          </label>
+          <input
+            type="text"
+            value={email}
+            onChange={(e) => dispatch(setEmail(e.target.value))}
+            className="w-full px-4 py-3 rounded-lg
+                       bg-white/20 text-white placeholder-gray-300
+                       focus:outline-none focus:ring-2 focus:ring-[#f5c16c]"
+          />
+        </div>
+
+        {/* Password */}
+        <div className="mb-6">
+          <label className="block text-sm text-gray-300 mb-2">
+            Password
+          </label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => dispatch(setPassword(e.target.value))}
+            className="w-full px-4 py-3 rounded-lg
+                       bg-white/20 text-white placeholder-gray-300
+                       focus:outline-none focus:ring-2 focus:ring-[#f5c16c]"
+          />
+        </div>
+
+        {/* Button */}
+        <button
+          onClick={handleSubmit}
+          className="w-full py-3 rounded-xl
+                     bg-gradient-to-r from-[#f5c16c] to-[#e0a84b]
+                     text-gray-900 font-semibold text-lg
+                     hover:shadow-xl hover:scale-[1.02]
+                     transition-all duration-300"
+        >
+          Login
+        </button>
+
+      </div>
+    </div>
+  );
+}
+
+export default Login;

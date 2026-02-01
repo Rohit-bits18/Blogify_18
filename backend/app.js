@@ -12,7 +12,9 @@ const port = process.env.port || 4000
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors());
+app.use(cors({
+  origin:"*"
+}));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 

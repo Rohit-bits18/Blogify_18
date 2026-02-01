@@ -1,91 +1,95 @@
 import axios from 'axios'
-import React, { useState } from 'react'
-import { useEffect } from 'react'
-// import '../style/Home.css'
-import Navbar from '../component/Navbar';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react'
+import Navbar from '../component/Navbar'
+import { useNavigate } from 'react-router-dom'
+
 function Landing() {
-const [blogs,setBlogs] = useState([]);
-const navi = useNavigate();
+  const [blogs, setBlogs] = useState([])
+  const navi = useNavigate()
 
-    async function callApi() {
-        try{
-            const res = await axios.get("/api/blog/home");
+  async function callApi() {
+    try {
+      const res = await axios.get("/api/blog/home")
 
-            console.log(res.data)
-      	if(res.data.status == 404){
-                  window.alert("something went wrong")
-									return;
-						}
-
-            setBlogs(res.data.blogs)
-				
-
-
-       return;
-
-      } catch (error) {
-    console.log("there is an error in reg component api calling")
-   } 
-    }
-
-    useEffect(()=>{
-      callApi();
-    },[])
-
-    const handleBlog = async function (blog) {
-      try {
-        navi(`/readblog/${blog._id}`);
-      } catch (error) {
-        
+      if (res.data.status === 404) {
+        alert("Something went wrong")
+        return
       }
+
+      setBlogs(res.data.blogs)
+    } catch (error) {
+      console.log("Error fetching blogs")
     }
-    
+  }
+
+  useEffect(() => {
+    callApi()
+  }, [])
+
+  const handleBlog = (blog) => {
+    navi(`/readblog/${blog._id}`)
+  }
+
   return (
     <>
-  <Navbar></Navbar>
+      <Navbar />
 
-<div className={`w-full my-3`}>
-       {blogs.length > 0 ? (
-      <div className={` grid grid-cols-1 gap-4 justify-items-center `}>
-           {  blogs.map((blog)=>{
-              return   <div className={`w-[70%] p-3  rounded-3xl shadow-lg  hover:scale-110 hover:p-2 hovera:m-2 duration-500 ease-in-out hover:bg-amber-50`} key={blog._id}>
- <div className="flex flex-col items-center gap-1">
-      <div className="home-title"> <h3 className={`font-semibold font-mono`}>{blog.title}</h3></div>
-              
-      <div className="home-content">
-        <p className={`text-justify font-sans `}>{`${blog.content.substring(0,200)}...`}</p>
-      </div>
-               
-             <div className="home-metadata">
-              <div> 
-                 
-                 <div>
-                   <label className={`font-serif`} id="writer"> writtenBy : </label>
-                   <label className={`font-semibold`}>{blog.writtenBy}</label> 
-                     </div>
-               
+      <div className="min-h-screen px-4 py-10
+                      bg-gradient-to-br from-[#0f2027] via-[#203a43] to-[#2c5364]">
 
-              <div className={`my-2 text-center`}><a  onClick={()=>{
-                handleBlog(blog)
-                }} className={`bg-pink-200 rounded-2xl p-2 text-center text-white cursor-pointer hover:bg-gray-100 hover:border-pink-300 hover:text-pink-300 hover:scale-110 duration-300 ease-in-out `}>ReadBlog</a></div></div>
-                
-             </div>
-                
+        {blogs.length > 0 ? (
+          <div className="max-w-6xl mx-auto
+                          grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            {blogs.map((blog) => (
+              <div
+                key={blog._id}
+                className="bg-white/10 backdrop-blur-xl
+                           border border-white/20
+                           rounded-3xl p-6
+                           shadow-xl
+                           hover:scale-[1.03]
+                           transition-all duration-300"
+              >
+                {/* Title */}
+                <h3 className="text-xl font-semibold text-[#f5c16c] mb-3">
+                  {blog.title}
+                </h3>
+
+                {/* Content */}
+                <p className="text-gray-200 text-sm leading-relaxed mb-4 text-justify">
+                  {blog.content.substring(0, 200)}...
+                </p>
+
+                {/* Metadata */}
+                <div className="flex justify-between items-center mt-4">
+                  <span className="text-sm text-gray-300">
+                    ✍️ {blog.writtenBy}
+                  </span>
+
+                  <button
+                    onClick={() => handleBlog(blog)}
+                    className="px-4 py-2 rounded-xl
+                               bg-gradient-to-r from-[#f5c16c] to-[#e0a84b]
+                               text-gray-900 font-semibold text-sm
+                               hover:shadow-lg hover:scale-105
+                               transition-all duration-300"
+                  >
+                    Read Blog
+                  </button>
+                </div>
               </div>
-  </div>
+            ))}
 
-            })}
+          </div>
+        ) : (
+          <div className="text-center text-gray-300 text-xl mt-20">
+            No blogs found 📝
+          </div>
+        )}
       </div>
-    ):(<h1>hello world</h1>)}  
-
-</div>
-
- 
     </>
   )
 }
 
 export default Landing
-
-

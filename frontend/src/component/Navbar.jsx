@@ -1,47 +1,64 @@
 import React from 'react'
-import '../style/Navbar.css'
 import { Link } from 'react-router-dom'
-function navbar() {
-  return (
-    <>
-    {/* <div className=
-    "navbar">
-    <div className=
-    "nav-head">
-      <p>Daily Blogs</p>
-    </div>
-    <div className=
-    "nav-items">
-      <ul>
-        <li><Link to='/profile'>Profile</Link></li>
-        <li><Link to='/login'>Login</Link></li>    
-        <li><Link to='/reg'>Register</Link></li>
-      </ul>
-    </div>
-  </div> */}
 
-    <div className=
-    {`flex justify-around items-center p-3 bg-blue-200 w-full`}>
-    <div className=
-    {`font-bold font-serif`}>
-      <p className=
-      {`cursor-pointer hover:scale-110 hover:text-red-500 transition-all ease-in-out duration-400 `}>Daily Blogs</p>
-    </div>
-    <div>
-      <ul className=
-      {`flex gap-[1rem] justify-center items-center font-sans`}>
-        <li><Link className=
-        {`cursor-pointer font-mono hover:scale-110 hover:text-red-500 transition-all ease-in-out duration-400`} to='/profile'>Profile</Link></li>
-        <li><Link className=
-        {`cursor-pointer font-mono hover:font-semibold hover:scale-110 hover:text-red-500 transition-all ease-in-out duration-400`} to='/login'>Login</Link></li>    
-        <li><Link className=
-        {`cursor-pointer font-mono hover:scale-110 hover:text-red-500 transition-all ease-in-out duration-400`} to='/reg'>Register</Link></li>
-      </ul>
-    </div>
-  </div>
-    
-    </>
+function Navbar() {
+  return (
+    <nav className="w-full sticky top-0 z-50
+                    bg-white/10 backdrop-blur-xl
+                    border-b border-white/20">
+
+      <div className="max-w-7xl mx-auto px-6 py-4
+                      flex justify-between items-center">
+
+        {/* Logo */}
+        <Link
+          to="/"
+          className="text-2xl font-bold tracking-wide
+                     text-[#f5c16c]
+                     hover:scale-105 transition-transform"
+        >
+          Daily Blogs
+        </Link>
+
+        {/* Nav Links */}
+        <ul className="flex gap-8 items-center text-gray-200">
+          <li>
+            <Link
+              to="/profile"
+              className="hover:text-[#f5c16c]
+                         transition-colors duration-300"
+            >
+              Profile
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/login"
+              className="hover:text-[#f5c16c]
+                         transition-colors duration-300"
+            >
+              Login
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="/reg"
+              className="px-4 py-2 rounded-lg
+                         bg-gradient-to-r from-[#f5c16c] to-[#e0a84b]
+                         text-gray-900 font-semibold
+                         hover:shadow-lg hover:scale-105
+                         transition-all duration-300"
+            >
+              Register
+            </Link>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
   )
 }
 
-export default navbar
+export default Navbar
